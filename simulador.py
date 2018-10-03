@@ -1,4 +1,5 @@
 import math
+import pandas as pd
 from cache import Cache
 
 def filtro_base_2(entrada):
@@ -13,13 +14,22 @@ def main():
         filtro_base_2(linha_cache)
         filtro_base_2(linha_MP)
         cache = Cache(linha_cache)
-        enderecos = input().split()
     except ValueError:
-        print('Uma das entradas não é base 2')
+        print('Uma das entradas não está na base 2')
     else:
-        for i in enderecos:
-            cache.consulta(i)
-        print(f'Hit: {cache.hit}')
-        print(f'Miss:{cache.miss}')
+        while(True):
+            adress = input('Digite o endereço ou 0 para sair: ')
+            if adress != '0':
+                if(cache.consulta(adress)):
+                    print('Hit')
+                else:
+                    print('Miss')
+            else:
+                break   
+        tabela = pd.DataFrame(cache.cache)
+        tabela = tabela[['V', 'Tag', 'Dados']]
+        print(tabela)
+        print(f'Numero total de Hit: {cache.hit}')
+        print(f'Numero total de Miss:{cache.miss}')
 
 main()
